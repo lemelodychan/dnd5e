@@ -36,10 +36,18 @@ export default async function CharacterPage({ params: { id } }) {
     const characterClass = characterClasses[0];
     const classModifier = characterClass.main_modifier;
 
+    // FETCH ASI BONUSES
+    const asiBonuses = character.ASI_bonuses;
+
     return (
         <div>
             {character && characterClass ? (
-                <CharacterSheet character={character} characterClass={characterClass} classModifier={classModifier} />
+                <CharacterSheet 
+                    character={character} 
+                    characterClass={characterClass} 
+                    classModifier={classModifier}
+                    asiBonuses={asiBonuses}
+                 />
             ) : (
                 <p>Loading...</p>
             )}

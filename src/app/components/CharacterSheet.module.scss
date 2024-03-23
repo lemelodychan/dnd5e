@@ -5,3 +5,9 @@ img.portrait {
     object-fit: cover;
     object-position: center;
 }
+
+div.ASI {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 32px;
+}

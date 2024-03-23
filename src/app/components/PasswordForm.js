@@ -6,8 +6,8 @@ import { IoArrowForwardOutline } from "react-icons/io5";
 
 export async function generateMetadata() {
   return {
-    title: "Elodie Dassance | Senior Product Designer based in Tokyo",
-    description: "Product design and UX/UI design portfolio.",
+    title: "UOC TTRPG | Character Sheet Manager",
+    description: "In progress",
   };
 }
 
