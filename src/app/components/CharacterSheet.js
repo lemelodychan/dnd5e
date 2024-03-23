@@ -9,6 +9,7 @@ import HPCalc from './HPCalc';
 import ACCalc from './ACCalc';
 import AttributeCalc from './AttributeCalc';
 import SkillRow from './SkillInformation';
+import FeatsList from './FeatList';
 
 function calculateModifierScore(totalAttributeValue) {
   const modifier = Math.floor(((10 - totalAttributeValue) / 2) * -1);
@@ -70,15 +71,17 @@ export default function CharacterSheet({ character, characterClass, classModifie
         <p>{character.race_2 ? `${character.race_1}, ${character.race_2}` : character.race_1}</p>
         <p>{character.class}, {character.subclass}</p>
         <p>{character.background}</p>
+        
         <div>
-          feats
+          <FeatsList character={character} feats={character && character.feats ? character.feats : []} />
         </div>
+        
+        <h2>Ability Scores</h2>
         <div>
           Proficiency bonus: +{proficiencyBonus}
           <p>Passive insight: {passiveInsight}</p>
           <p>Passive perception: {passivePerception}</p>
         </div>
-        <br />
         <div className={styles.ASI}>
           <div>
             Strength score: {strength}
