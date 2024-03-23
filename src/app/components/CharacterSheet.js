@@ -24,7 +24,7 @@ function calculateModifier(totalAttributeValue) {
 
 const MaxHP = AttributeCalc(HPCalc);
 
-export default function CharacterSheet({ character, characterClass, classModifier, asiBonuses, skills }) {
+export default function CharacterSheet({ character, classModifier, asiBonuses }) {
 
   const strength = calculateAbilityScore('Strength', character.str, character);
   const constitution = calculateAbilityScore('Constitution', character.con, character);
@@ -51,12 +51,12 @@ export default function CharacterSheet({ character, characterClass, classModifie
   }
   const level = character.level;
   const proficiencyBonus = calculateProficiencyBonus(level);
-  
+
   const passiveInsight = 10 + calculateModifierScore(character.wis) + (character.proficiency.includes('Insight') ? proficiencyBonus : 0);
   const passivePerception = 10 + calculateModifierScore(character.wis) + (character.proficiency.includes('Perception') ? proficiencyBonus : 0);
 
     return (
-      <div>
+      <div className={styles.charaSheet}>
         <div className={styles.charaTop}>
           <Image
             src={character.image}
@@ -66,19 +66,30 @@ export default function CharacterSheet({ character, characterClass, classModifie
             className={styles.portrait}
           />
           <div className={styles.charaInfo}>
-            <h1>{character.name}</h1>
-            <p>{character.fullname}</p>
-            <p>Level {character.level}</p>
-            <p>{character.alignment}</p>
-            <p>{character.race_2 ? `${character.race_1}, ${character.race_2}` : character.race_1}</p>
-            <p>{character.class}, {character.subclass}</p>
-            <p>{character.background}</p>
+            <h1>
+              {character.name}
+              <span>{character.fullname}</span>
+            </h1>
+            <p className={styles.charaTags}>
+              <span>Level {character.level}</span>
+              <span>{character.alignment}</span>
+            </p>
+            <p className={styles.raceBlock}>
+              <strong>Race</strong>
+              <span>{character.race_2 ? `${character.race_1}, ${character.race_2}` : character.race_1}</span>
+            </p>
+            <p className={styles.classBlock}>
+              <strong>Class</strong>
+              <span>{character.class}, {character.subclass}</span>
+            </p>
+            <p className={styles.bgBlock}>
+              <strong>Background</strong>
+              <span>{character.background}</span>
+            </p>
           </div>
         </div>
         
-        <div>
-          <FeatsList character={character} feats={character && character.feats ? character.feats : []} />
-        </div>
+        <FeatsList character={character} feats={character && character.feats ? character.feats : []} />
         
         <div className={styles.ASIblock}>
           <h2>Ability Scores</h2>
@@ -297,11 +308,13 @@ export default function CharacterSheet({ character, characterClass, classModifie
             </div>
           </div>
         </div>
-        <div>
-          class features
+        <div className={styles.featuresBlock}>
+          <h2>Class Features</h2>
+          <div>Content</div>
         </div>
-        <div>
-          spells
+        <div className={styles.spellcastingBlock}>
+          <h2>Spellcasting</h2>
+          <div>Content</div>
         </div>
       </div>
     );
