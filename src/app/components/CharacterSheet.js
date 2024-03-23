@@ -51,9 +51,7 @@ export default function CharacterSheet({ character, characterClass, classModifie
   }
   const level = character.level;
   const proficiencyBonus = calculateProficiencyBonus(level);
-
-  const strSavingThrow = calculateModifierScore(character.str) + (character.proficiency.includes('Strength Saving Throw') ? proficiencyBonus : 0);
-
+  
   const passiveInsight = 10 + calculateModifierScore(character.wis) + (character.proficiency.includes('Insight') ? proficiencyBonus : 0);
   const passivePerception = 10 + calculateModifierScore(character.wis) + (character.proficiency.includes('Perception') ? proficiencyBonus : 0);
 
