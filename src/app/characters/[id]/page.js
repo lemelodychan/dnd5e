@@ -27,10 +27,10 @@ export default async function CharacterPage({ params: { id } }) {
         return <div>Error fetching character class</div>;
     }
     if (!characterClasses || characterClasses.length === 0) {
-        return <div>No class found with name "{character.class}"</div>;
+        return <div>No class found with name {character.class}</div>;
     }
     if (characterClasses.length > 1) {
-        return <div>Multiple classes found with name "{character.class}"</div>;
+        return <div>Multiple classes found with name {character.class}</div>;
     }
 
     const characterClass = characterClasses[0];
