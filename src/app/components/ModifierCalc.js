@@ -1,18 +1,14 @@
 import React from 'react';
 
-function calculateModifier(baseValue) {
-    const totalValue = baseValue;
-    return Math.floor(((10 - totalValue) / 2) * -1);
-}
-
-function ModifierCalc({ attributeName, baseValue }) {
-    const modifier = calculateModifier(baseValue);
-    const modifierString = modifier >= 0 ? `+${modifier}` : `${modifier}`;
+function ModifierCalc({ attributeName, baseValue, character, calculateAttribute }) {
+    const { totalValue, modifier } = calculateAttribute(attributeName, baseValue, character);
 
     return (
         <div>
+            <h3>{attributeName} Score:</h3>
+            <p>{totalValue}</p>
             <h3>{attributeName} Modifier:</h3>
-            <p>{modifierString}</p>
+            <p>{modifier >= 0 ? `+${modifier}` : `${modifier}`}</p>
         </div>
     );
 }

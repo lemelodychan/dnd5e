@@ -1,9 +1,16 @@
+// CharacterSheet.js
 import Image from 'next/image'
 import styles from "./CharacterSheet.module.scss"
 
-import ModifierCalc from "./ModifierCalc"
+import ModifierCalc from './ModifierCalc';
+import HPCalc from './HPCalc';
+import ACCalc from './ACCalc';
+import AttributeCalc from './AttributeCalc';
 
-export default function Character({ character }) {
+const Modifier = AttributeCalc(ModifierCalc);
+const MaxHP = AttributeCalc(HPCalc);
+
+export default function CharacterSheet({ character, characterClass, classModifier }) {
     return (
       <div>
         <Image
@@ -18,13 +25,17 @@ export default function Character({ character }) {
         <p>{character.race_1}, {character.race_2}</p>
         <p>{character.class}, {character.subclass}</p>
         <div>
-          <ModifierCalc attributeName="Strength" baseValue={character.str} character={character} />
-          <ModifierCalc attributeName="Constitution" baseValue={character.con} character={character} />
-          <ModifierCalc attributeName="Dexterity" baseValue={character.dex} character={character} />
-          <ModifierCalc attributeName="Intelligence" baseValue={character.int} character={character} />
-          <ModifierCalc attributeName="Wisdom" baseValue={character.wis} character={character} />
-          <ModifierCalc attributeName="Charisma" baseValue={character.cha} character={character} />
+          <Modifier attributeName="Strength" baseValue={character.str} character={character} />
+          <Modifier attributeName="Constitution" baseValue={character.con} character={character} />
+          <Modifier attributeName="Dexterity" baseValue={character.dex} character={character} />
+          <Modifier attributeName="Intelligence" baseValue={character.int} character={character} />
+          <Modifier attributeName="Wisdom" baseValue={character.wis} character={character} />
+          <Modifier attributeName="Charisma" baseValue={character.cha} character={character} />
+        </div>
+        <div>
+          <MaxHP character={character} classModifier={classModifier} />
+          <ACCalc character={character} classModifier="Dexterity" />
         </div>
       </div>
     );
-  }
+}
