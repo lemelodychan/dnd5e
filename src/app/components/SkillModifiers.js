@@ -21,7 +21,7 @@ const SkillModifiers = ({ character, skills }) => {
         <div>
             {/* Render skill modifiers */}
             {Object.entries(skillModifiers).map(([skillName, modifier]) => (
-                <p key={skillName}>{skillName}: {modifier >= 0 ? `+${modifier}` : modifier}</p>
+                <p key={skillName}>{skillName} <span>{modifier >= 0 ? `+${modifier}` : modifier}</span></p>
             ))}
         </div>
     );

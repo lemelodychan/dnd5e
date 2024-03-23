@@ -66,10 +66,9 @@ const ACCalc = ({ character, asiBonuses, calculateAttribute }) => {
     };
 
     return (
-        <div>
-            <h3>Armor Class:</h3>
+        <>
             {calculateTotalAC()}
-        </div>
+        </>
     );
 }
 

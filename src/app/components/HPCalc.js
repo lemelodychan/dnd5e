@@ -11,10 +11,9 @@ function HPCalc({ character, classModifier, calculateAttribute }) {
     const maxHP = baseHP + ((modifier * -1) * character.level);
 
     return (
-        <div>
-            <h3>Max HP:</h3>
-            <p>{maxHP}</p>
-        </div>
+        <>
+            {maxHP}
+        </>
     );
 }
 

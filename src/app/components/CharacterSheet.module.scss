@@ -1,13 +1,124 @@
-img.portrait {
-    width: 200px;
-    height: auto !important;
-    aspect-ratio: 1;
-    object-fit: cover;
-    object-position: center;
+div.charaTop {
+    display: flex;
+    gap: 2rem;
+
+    img.portrait {
+        width: 200px;
+        height: 240px !important;
+        aspect-ratio: 1;
+        object-fit: cover;
+        object-position: center;
+        border-radius: 1rem;
+    }
+
+    div.charaInfo {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        h1 {
+            font-family: var(--font-title);
+        }
+    }
 }
 
-div.ASI {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-gap: 32px;
+div.ASIblock {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin: 2rem 0;
+
+    h2 {
+        font-family: var(--font-title);
+    }
+
+    div.otherScore {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-gap: 2rem;
+    
+        > p {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 1rem;
+            background-color: white;
+            border-radius: 1rem;
+    
+            > span {
+                font-size: 1.25rem;
+
+                &.hitDice {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                }
+            }
+        }
+    }
+    
+    div.ASI {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-gap: 32px;
+
+        > div {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            padding: 1rem;
+            border: 1px solid white;
+            background-color: white;
+            border-radius: 1rem;
+
+            div.scoreInfo {
+                position: relative;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+    
+                h3 {
+                    line-height: 1.5rem;
+                    font-size: 1.25rem;
+                    font-family: var(--font-title);
+                }
+    
+                span.numberScore {
+                    display: block;
+                    padding: 0.25rem 0.5rem;
+                    text-align: center;
+                    width: 2rem;
+                    line-height: 1.5rem;
+                    background-color: #f4f4f4;
+                    border-radius: 1rem;
+                    font-weight: 500;
+                    position: relative;
+                }
+    
+                span.numberModifier {
+                    position: absolute;
+                    right: -0.75rem;
+                    top: -0.75rem;
+                    color: white;
+                    background-color: #222;
+                    font-size: 0.75rem;
+                    font-weight: 500;
+                    display: block;
+                    padding: 0.175rem 0.25rem;
+                    line-height: 1rem;
+                    border-radius: 1rem;
+                }
+            }
+    
+            div.skillsList {
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+                margin: 0.5rem 0;
+            }
+
+        }
+    }
+
 }

@@ -1,0 +1,48 @@
+div.featsBlock {
+    margin: 2rem 0;
+
+    h2 {
+        margin-bottom: 1rem;
+    }
+
+    ul.featsList {
+        list-style-type: none;
+        width: -webkit-fill-available;
+    
+        li.featItem {
+            background-color: white;
+            border-radius: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+
+            button {
+                width: 100%;
+                cursor: pointer;
+                display: flex;
+                justify-content: space-between;
+                padding: 1rem 1.25rem;
+                align-items: center;
+                background-color: transparent;
+                border: 0;
+                font-size: 1rem;
+                line-height: 1.5rem;
+                font-family: var(--font-text);
+            }
+    
+            ul.featInfo {
+                list-style-type: none;
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+                padding: 0 1.25rem 1rem 1.25rem;
+    
+                > li:before {
+                    content: "・";
+                    font-weight: bold;
+                    margin-right: 0.25rem;
+                }
+            }
+        }
+    }
+}
