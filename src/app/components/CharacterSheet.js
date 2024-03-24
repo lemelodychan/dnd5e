@@ -52,6 +52,9 @@ export default function CharacterSheet({ character, classModifier, asiBonuses })
   const level = character.level;
   const proficiencyBonus = calculateProficiencyBonus(level);
 
+  console.log("current HP",character.current_HP);
+  console.log("alignment",character.alignment);
+
   const passiveInsight = 10 + calculateModifierScore(character.wis) + (character.proficiency.includes('Insight') ? proficiencyBonus : 0);
   const passivePerception = 10 + calculateModifierScore(character.wis) + (character.proficiency.includes('Perception') ? proficiencyBonus : 0);
 
