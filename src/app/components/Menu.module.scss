@@ -6,6 +6,9 @@ div.menu {
     background-color: white;
 
     ul.allCampaigns {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
 
         li.campaignList {
             list-style: none;

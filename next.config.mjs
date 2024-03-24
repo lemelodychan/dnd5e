@@ -1,4 +1,3 @@
-/** @type {import('next').NextConfig} */
 const nextConfig = {
   webpack: (config, { isServer }) => {
     if (!isServer) {
@@ -18,7 +17,8 @@ const nextConfig = {
         destination: '/characters/[id]'
       }
     ];
-  }
+  },
+  pagesDirectory: '/pages', // Adjust the path to match your custom structure
 };
 
 export default nextConfig;

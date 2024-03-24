@@ -1,0 +1,8 @@
+div.main {
+    display: grid;
+    grid-template-columns: 240px auto;
+
+    div.container {
+        padding: 40px;
+    }
+}

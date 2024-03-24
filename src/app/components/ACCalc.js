@@ -1,75 +1,81 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabase';
 import AttrCalc from './AttributeCalc';
 
 async function fetchArmour() {
-    const { data, error } = await supabase.from('Armour').select();
-    if (error) {
-        console.error('Error fetching Armour:', error.message);
+    try {
+        const { data, error } = await supabase.from('Armour').select();
+        if (error) {
+            throw new Error(`Error fetching Armour: ${error.message}`);
+        }
+        return data || [];
+    } catch (error) {
+        console.error(error.message);
         return [];
     }
-    return data || [];
 }
 
 const ACCalc = ({ character, asiBonuses, calculateAttribute }) => {
-    const calculateTotalAC = async () => {
-        try {
-            const armourData = await fetchArmour();
-            const equippedArmor = character.armour || '';
-            const armour = armourData.find(item => item.name === equippedArmor);
-            if (!armour) {
-                throw new Error(`Armour "${equippedArmor}" not found.`);
+    const [totalAC, setTotalAC] = useState(10);
+
+    useEffect(() => {
+        const calculateTotalAC = async () => {
+            try {
+                const armourData = await fetchArmour();
+                const equippedArmor = character.armour || '';
+                const armour = armourData.find(item => item.name === equippedArmor);
+                if (!armour) {
+                    throw new Error(`Armour "${equippedArmor}" not found.`);
+                }
+
+                let calculatedAC = armour.base_AC;
+
+                // Calculate Dexterity modifier using AttrCalc
+                const dexAttribute = calculateAttribute('Dexterity', character.dex, character);
+                const dexModifier = dexAttribute.modifier;
+
+                // Add Dexterity modifier if dex_bonus is true
+                if (armour.dex_bonus) {
+                    calculatedAC += dexModifier;
+                }
+
+                // Add ASI bonuses to AC
+                let asiBonusToAC = 0;
+                if (asiBonuses && typeof asiBonuses === 'object') {
+                    Object.entries(asiBonuses).forEach(([bonusType, bonuses]) => {
+                        if (Array.isArray(bonuses)) {
+                            bonuses.forEach(bonus => {
+                                if (bonus && bonus.features && Array.isArray(bonus.features)) {
+                                    bonus.features.forEach(feature => {
+                                        if (feature.ASI_ability_1 === 'AC' && feature.ASI_bonus_1) {
+                                            asiBonusToAC += parseInt(feature.ASI_bonus_1);
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
+                }
+
+                const hasShield = character.equipment && character.equipment.includes('Shield');
+                if (hasShield) {
+                    calculatedAC += 2;
+                }
+
+                // Calculate total AC
+                calculatedAC += asiBonusToAC;
+
+                setTotalAC(calculatedAC);
+            } catch (error) {
+                console.error('Error calculating total AC:', error.message);
+                setTotalAC(10); // Set default value
             }
+        };
 
-            let totalAC = armour.base_AC;
+        calculateTotalAC();
+    }, [character, asiBonuses, calculateAttribute]);
 
-            // Calculate Dexterity modifier using AttrCalc
-            const dexAttribute = calculateAttribute('Dexterity', character.dex, character);
-            const dexModifier = dexAttribute.modifier;
-
-            // Add Dexterity modifier if dex_bonus is true
-            if (armour.dex_bonus) {
-                totalAC += dexModifier;
-            }
-
-            // Add ASI bonuses to AC
-            let asiBonusToAC = 0;
-            if (asiBonuses && typeof asiBonuses === 'object') {
-                Object.entries(asiBonuses).forEach(([bonusType, bonuses]) => {
-                    if (Array.isArray(bonuses)) {
-                        bonuses.forEach(bonus => {
-                            if (bonus && bonus.features && Array.isArray(bonus.features)) {
-                                bonus.features.forEach(feature => {
-                                    if (feature.ASI_ability_1 === 'AC' && feature.ASI_bonus_1) {
-                                        asiBonusToAC += parseInt(feature.ASI_bonus_1);
-                                    }
-                                });
-                            }
-                        });
-                    }
-                });
-            }
-
-            const hasShield = character.equipment && character.equipment.includes('Shield');
-            if (hasShield) {
-                totalAC += 2;
-            }
-
-            // Calculate total AC
-            totalAC += asiBonusToAC;
-
-            return totalAC;
-        } catch (error) {
-            console.error('Error calculating total AC:', error.message);
-            return 10; // Return default value
-        }
-    };
-
-    return (
-        <>
-            {calculateTotalAC()}
-        </>
-    );
-}
+    return <>{totalAC}</>;
+};
 
 export default AttrCalc(ACCalc);

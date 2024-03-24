@@ -1,39 +1,33 @@
+"use client"
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { supabase } from '../lib/supabase';
 
 import "../styles/globals.css";
-import styles from './Menu.module.scss'
+import styles from './Menu.module.scss';
 
-async function fetchCampaigns() {
-    const { data, error } = await supabase.from('Campaigns').select('*');
-    if (error) {
-        console.error('Error fetching campaigns:', error.message);
+async function fetchCampaignsWithCharacters() {
+    const { data: campaigns, error: campaignsError } = await supabase.from('Campaigns').select('*');
+    if (campaignsError) {
+        console.error('Error fetching campaigns:', campaignsError.message);
         return [];
     }
-    return data || [];
-}
 
-async function fetchCharactersForCampaign(campaign) {
-    const characterIds = campaign.characters_id || [];
-    const characters = [];
-
-    for (const characterId of characterIds) {
-        try {
-            const { data, error } = await supabase.from('Characters').select('*').eq('id', characterId);
-            if (error) {
-                console.error(`Error fetching character with ID ${characterId}:`, error.message);
-                continue;
-            }
-            if (data && data.length > 0) {
-                characters.push(data[0]);
-            }
-        } catch (error) {
-            console.error(`Error fetching character with ID ${characterId}:`, error.message);
+    const charactersPromises = campaigns.map(async (campaign) => {
+        const { data: characters, error: charactersError } = await supabase.from('Characters').select('*').in('id', campaign.characters_id || []);
+        if (charactersError) {
+            console.error(`Error fetching characters for campaign ${campaign.id}:`, charactersError.message);
+            return [];
         }
-    }
+        return characters;
+    });
 
-    return characters;
+    const charactersForCampaigns = await Promise.all(charactersPromises);
+
+    return campaigns.map((campaign, index) => ({
+        ...campaign,
+        characters: charactersForCampaigns[index] || [],
+    }));
 }
 
 function Menu() {
@@ -41,24 +35,11 @@ function Menu() {
 
     useEffect(() => {
         async function fetchData() {
-            const campaigns = await fetchCampaigns();
-            setCampaigns(campaigns);
+            const campaignsWithCharacters = await fetchCampaignsWithCharacters();
+            setCampaigns(campaignsWithCharacters);
         }
         fetchData();
     }, []);
-
-    useEffect(() => {
-        async function fetchCharacterData() {
-            const updatedCampaigns = await Promise.all(
-                campaigns.map(async (campaign) => {
-                    const characters = await fetchCharactersForCampaign(campaign);
-                    return { ...campaign, characters };
-                })
-            );
-            setCampaigns(updatedCampaigns);
-        }
-        fetchCharacterData();
-    }, [campaigns]); // Trigger when campaigns change
 
     return (
         <div className={styles.menu}>
@@ -67,7 +48,7 @@ function Menu() {
                     {campaigns.map((campaign) => (
                         <li key={campaign.id} className={styles.campaignList}>
                             <h2>{campaign.name}</h2>
-                            {campaign.characters ? (
+                            {campaign.characters.length > 0 ? (
                                 <ul>
                                     {campaign.characters.map((character) => (
                                         <li key={character.id} className={styles.characterLink}>
@@ -78,13 +59,13 @@ function Menu() {
                                     ))}
                                 </ul>
                             ) : (
-                                <p>skeleton</p>
+                                <p>No characters found for this campaign.</p>
                             )}
                         </li>
                     ))}
                 </ul>
             ) : (
-                <p>skeleton</p>
+                <p>Loading...</p>
             )}
         </div>
     );

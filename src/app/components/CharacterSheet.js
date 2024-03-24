@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import { supabase } from '../lib/supabase';
+import { useEffect, useState } from 'react';
 
 import "../styles/globals.css";
 import styles from "./CharacterSheet.module.scss"
@@ -25,6 +26,25 @@ function calculateModifier(totalAttributeValue) {
 const MaxHP = AttributeCalc(HPCalc);
 
 export default function CharacterSheet({ character, classModifier, asiBonuses }) {
+  const [feats, setFeats] = useState([]);
+
+  useEffect(() => {
+    async function fetchFeats() {
+      const { data, error } = await supabase
+        .from('Feats')
+        .select('*')
+        .eq('name', character.feats);
+    
+      if (error) {
+        console.error('Error fetching feats:', error.message);
+        return [];
+      }
+    
+      setFeats(data || []);
+    }
+
+    fetchFeats();
+  }, [character.feats]);
 
   const strength = calculateAbilityScore('Strength', character.str, character);
   const constitution = calculateAbilityScore('Constitution', character.con, character);
