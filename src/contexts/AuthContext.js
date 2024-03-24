@@ -9,7 +9,7 @@ export const AuthProvider = ({ children }) => {
     if (password === 'catharsis') {
       setAuthenticated(true);
       localStorage.setItem('authenticated', 'true');
-      window.location.reload(); // Reload the page
+      window.location.reload();
     } else {
       alert('Incorrect password');
     }

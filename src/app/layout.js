@@ -1,12 +1,9 @@
 "use client"
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
-import { supabase } from './lib/supabase';
 
 import "./styles/globals.css";
 import styles from "./layout.module.scss"
 
-import Metadata from "@/app/components/Metadata";
 import Menu from '@/app/components/Menu';
 
 import { useAuth, AuthProvider } from '@/contexts/AuthContext';
