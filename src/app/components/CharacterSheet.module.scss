@@ -5,6 +5,7 @@ div.charaSheet {
 
     div.charaTop {
         display: flex;
+        width: 100%;
         gap: 2rem;
 
         img.portrait {
@@ -17,6 +18,7 @@ div.charaSheet {
         }
 
         div.charaInfo {
+            width: 100%;
             height: fit-content;
             display: grid;
             grid-template-columns: 1fr 1fr;
