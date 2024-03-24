@@ -52,46 +52,11 @@ export default function CharacterSheet({ character, classModifier, asiBonuses })
   const level = character.level;
   const proficiencyBonus = calculateProficiencyBonus(level);
 
-  console.log("current HP",character.current_HP);
-  console.log("alignment",character.alignment);
-
   const passiveInsight = 10 + calculateModifierScore(character.wis) + (character.proficiency.includes('Insight') ? proficiencyBonus : 0);
   const passivePerception = 10 + calculateModifierScore(character.wis) + (character.proficiency.includes('Perception') ? proficiencyBonus : 0);
 
     return (
-      <div className={styles.charaSheet}>
-        <div className={styles.charaTop}>
-          <Image
-            src={character.image}
-            alt={character.fullname}
-            width={200}
-            height={200}
-            className={styles.portrait}
-          />
-          <div className={styles.charaInfo}>
-            <h1>
-              {character.name}
-              <span>{character.fullname}</span>
-            </h1>
-            <p className={styles.charaTags}>
-              <span>Level {character.level}</span>
-              <span>{character.alignment}</span>
-            </p>
-            <p className={styles.raceBlock}>
-              <strong>Race</strong>
-              <span>{character.race_2 ? `${character.race_1}, ${character.race_2}` : character.race_1}</span>
-            </p>
-            <p className={styles.classBlock}>
-              <strong>Class</strong>
-              <span>{character.class}, {character.subclass}</span>
-            </p>
-            <p className={styles.bgBlock}>
-              <strong>Background</strong>
-              <span>{character.background}</span>
-            </p>
-          </div>
-        </div>
-        
+      <>
         <FeatsList character={character} feats={character && character.feats ? character.feats : []} />
         
         <div className={styles.ASIblock}>
@@ -319,6 +284,6 @@ export default function CharacterSheet({ character, classModifier, asiBonuses })
           <h2>Spellcasting</h2>
           <div>Content</div>
         </div>
-      </div>
+      </>
     );
 }
