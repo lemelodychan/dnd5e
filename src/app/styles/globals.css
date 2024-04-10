@@ -1,5 +1,14 @@
+@font-face {
+  font-family: "Geist";
+  src: url('../../../public/fonts/geistsans/GeistVF.eot');
+  src: url('../../../public/fonts/geistsans/GeistVF.eot') format('embedded-opentype'),
+       url('../../../public/fonts/geistsans/GeistVF.woff2') format('woff2'),
+       url('../../../public/fonts/geistsans/GeistVF.woff') format('woff'),
+       url('../../../public/fonts/geistsans/GeistVF.ttf') format('truetype');
+}
+
 :root {
-  --font-text: "Lexend", Helvetica, Arial, sans-serif;
+  --font-text: "Geist", Helvetica, Arial, sans-serif;
   --font-title: "IBM Plex Mono", monospace;
 
   --transi: all 0.3s ease;
